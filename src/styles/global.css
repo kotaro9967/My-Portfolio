@@ -60,7 +60,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 16px);
-  cursor: url('/assets/cursor-pen.svg') 3 29, auto;
+  cursor: url('/assets/cursor-pen.png') 5 38, auto;
 }
 
 body {
@@ -76,7 +76,7 @@ a,
 button,
 label,
 [role='button'] {
-  cursor: url('/assets/cursor-pen.svg') 3 29, pointer;
+  cursor: url('/assets/cursor-pen.png') 5 38, pointer;
 }
 
 a {
@@ -1117,24 +1117,17 @@ textarea::placeholder {
   .hero__blueprint img {
     object-fit: contain;
   }
-  /* モバイル用イラストは下端付近に KOTARO OZAWA ロゴがあるため、下端のフェードアウトを弱める */
+  /* モバイル用イラストは背景との境目が硬いため、左右・上端はフェードさせて馴染ませる。
+     下端は KOTARO OZAWA ロゴがあるのでほぼ透明化しない */
   .hero__blueprint {
     mask-image:
-      linear-gradient(
-        108deg,
-        #000 calc(var(--sweep) - 26%),
-        rgba(0, 0, 0, 0.45) calc(var(--sweep) - 9%),
-        transparent var(--sweep)
-      ),
-      linear-gradient(to bottom, #000 0%, #000 94%, rgba(0, 0, 0, 0.85) 100%);
+      linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, rgba(0, 0, 0, 0.85) 100%);
     -webkit-mask-image:
-      linear-gradient(
-        108deg,
-        #000 calc(var(--sweep) - 26%),
-        rgba(0, 0, 0, 0.45) calc(var(--sweep) - 9%),
-        transparent var(--sweep)
-      ),
-      linear-gradient(to bottom, #000 0%, #000 94%, rgba(0, 0, 0, 0.85) 100%);
+      linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, rgba(0, 0, 0, 0.85) 100%);
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
   }
   /* ロゴはモバイル用イラストに描き込み済みのため、重ねて表示するワードマークは非表示 */
   .hero__wordmark {

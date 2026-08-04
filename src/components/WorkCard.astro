@@ -18,7 +18,7 @@ const external = Boolean(externalUrl);
   rel={external ? 'noopener noreferrer' : undefined}
 >
   <div class="work-card__thumb" style={`background:${gradient}`}>
-    <img src={`/assets/${image}`} alt="" loading="lazy" />
+    <img src={image} alt="" loading="lazy" />
     <span class="work-card__tag">{tag}</span>
     {note && <span class="work-card__note">{note}</span>}
   </div>
