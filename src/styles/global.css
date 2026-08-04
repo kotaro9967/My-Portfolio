@@ -60,6 +60,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 16px);
+  cursor: url('/assets/cursor-pen.svg') 3 29, auto;
 }
 
 body {
@@ -69,6 +70,13 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+a,
+button,
+label,
+[role='button'] {
+  cursor: url('/assets/cursor-pen.svg') 3 29, pointer;
 }
 
 a {
@@ -1089,13 +1097,13 @@ textarea::placeholder {
     flex-direction: row;
     gap: 10px;
   }
-  /* 狭い画面では重ね合わせをやめ、図面を1枚絵として見せる */
+  /* 狭い画面では重ね合わせをやめ、モバイル専用の縦長イラスト（KOTARO OZAWA ロゴ込み）を1枚絵として見せる */
   .hero {
     margin-top: 16px;
-    padding-bottom: clamp(58px, 17vw, 84px);
+    padding-bottom: clamp(40px, 10vw, 64px);
   }
   .hero__canvas {
-    aspect-ratio: 1672 / 941;
+    aspect-ratio: 941 / 1672;
   }
   .hero__rule {
     display: none;
@@ -1109,21 +1117,28 @@ textarea::placeholder {
   .hero__blueprint img {
     object-fit: contain;
   }
-  /* transform はフェードイン用アニメーションが使うため、
-     センタリングには left の計算値を使う（上書き事故の防止） */
+  /* モバイル用イラストは下端付近に KOTARO OZAWA ロゴがあるため、下端のフェードアウトを弱める */
+  .hero__blueprint {
+    mask-image:
+      linear-gradient(
+        108deg,
+        #000 calc(var(--sweep) - 26%),
+        rgba(0, 0, 0, 0.45) calc(var(--sweep) - 9%),
+        transparent var(--sweep)
+      ),
+      linear-gradient(to bottom, #000 0%, #000 94%, rgba(0, 0, 0, 0.85) 100%);
+    -webkit-mask-image:
+      linear-gradient(
+        108deg,
+        #000 calc(var(--sweep) - 26%),
+        rgba(0, 0, 0, 0.45) calc(var(--sweep) - 9%),
+        transparent var(--sweep)
+      ),
+      linear-gradient(to bottom, #000 0%, #000 94%, rgba(0, 0, 0, 0.85) 100%);
+  }
+  /* ロゴはモバイル用イラストに描き込み済みのため、重ねて表示するワードマークは非表示 */
   .hero__wordmark {
-    left: 12% !important;
-    top: 94% !important;
-    bottom: auto !important;
-    width: 76% !important;
-    height: auto !important;
-    aspect-ratio: 2508 / 627;
-  }
-  .hero__wordmark img {
-    object-fit: contain;
-  }
-  .hero__wordmark:not(.hero__wordmark--primary) {
-    display: none;
+    display: none !important;
   }
   .contact__panels {
     grid-template-columns: 1fr;

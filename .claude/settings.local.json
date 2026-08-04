@@ -6,7 +6,11 @@
       "PowerShell(npm run dev)",
       "PowerShell(Get-Command chromium-cli -ErrorAction SilentlyContinue)",
       "PowerShell(npx playwright --version 2>&1)",
-      "PowerShell(npx playwright install chromium --with-deps 2>&1)"
+      "PowerShell(npx playwright install chromium --with-deps 2>&1)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:4322/\" -UseBasicParsing -TimeoutSec 5)",
+      "Bash(find /c/Users/hanap/AppData/Local/Temp -iname \"*.png\" -newermt '-10 minutes' 2>/dev/null | head -50)",
+      "Read(//c/Users/hanap/AppData/Local/Temp/**)",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Image]::FromFile\\(\"public\\\\assets\\\\hero_mobile.png\"\\); \"$\\($img.Width\\) x $\\($img.Height\\)\"; $img.Dispose\\(\\))"
     ]
   }
 }

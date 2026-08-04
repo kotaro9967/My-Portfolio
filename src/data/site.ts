@@ -5,9 +5,9 @@
 
 export const site = {
   name: 'Kotaro Ozawa',
-  nameJa: '小澤 虎太朗',
+  nameJa: '小澤 虎汰朗',
   tagline: 'PORTFOLIO',
-  title: '小澤虎太朗 | ポートフォリオ',
+  title: '小澤虎汰朗 | ポートフォリオ',
   description:
     '学生フリーランスとして中小企業向けにホームページ制作を行っています。企画からデザイン、開発、運用まで一気通貫でサポートします。',
   email: 'k.ozawa.hp@gmail.com',
@@ -50,7 +50,7 @@ export const profile = {
   intro: '学生目線の発想と最新Web技術で、 御社の魅力を若者へ届ける。',
   body: '学生フリーランスとして主に中小企業を対象にホームページ制作活動をしています。今まで大学の課外活動で約10社の企業のデジタル化やDXに携わってきました。具体的には、HP制作・基幹システム導入・PR動画制作です。その知見を生かし、より多くの企業に若者に刺さるHPをご提供できるよう精進してまいります。',
   items: [
-    { icon: 'icon_user.png', label: 'Name', value: ['小澤 虎太朗'] },
+    { icon: 'icon_user.png', label: 'Name', value: ['小澤 虎汰朗'] },
     { icon: 'icon_edit_role.png', label: 'Role', value: ['Webデザイナー / 学生'] },
     { icon: 'icon_location.png', label: 'Location', value: ['Tokyo, Japan'] },
     {
