@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import Section from './Section.astro';
+import NewsRow from './NewsRow.astro';
+import { news } from '../data/site';
+
+const items = (await getCollection('news', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<Section
+  id="news"
+  number="04"
+  label="NEWS"
+  title="Latest News"
+  ctaLabel="VIEW ALL NEWS"
+  ctaHref="/news"
+>
+  <p class="section__lead" slot="intro">{news.lead}</p>
+
+  <div class="card news__list">
+    {items.map((entry) => <NewsRow entry={entry} />)}
+  </div>
+</Section>

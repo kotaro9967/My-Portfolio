@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+import Section from './Section.astro';
+import WorkCard from './WorkCard.astro';
+import { works } from '../data/site';
+
+const items = (await getCollection('works', ({ data }) => !data.draft && data.featured)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<Section
+  id="works"
+  number="03"
+  label="WORKS"
+  title="Recent Works"
+  ctaLabel="VIEW ALL WORKS"
+  ctaHref="/works"
+>
+  <p class="section__lead" slot="intro">{works.lead}</p>
+
+  <div class="works" data-works>
+    <div class="works__track" data-works-track tabindex="0" role="region" aria-label="制作事例一覧">
+      {items.map((entry) => <WorkCard entry={entry} />)}
+    </div>
+
+    <button class="works__next" type="button" data-works-next aria-label="次の制作事例へ">
+      <span class="arrow arrow--sm arrow--deep" aria-hidden="true"></span>
+    </button>
+
+    <div class="works__dots" data-works-dots role="tablist" aria-label="制作事例のページ送り"></div>
+  </div>
+</Section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-works]');
+  const track = root?.querySelector<HTMLElement>('[data-works-track]');
+  const dotsBox = root?.querySelector<HTMLElement>('[data-works-dots]');
+  const nextBtn = root?.querySelector<HTMLButtonElement>('[data-works-next]');
+
+  if (root && track && dotsBox) {
+    /** カード1枚分の移動量（カード幅 + gap） */
+    const step = () => {
+      const first = track.firstElementChild as HTMLElement | null;
+      if (!first) return track.clientWidth;
+      const gap = parseFloat(getComputedStyle(track).columnGap || '0') || 0;
+      return first.getBoundingClientRect().width + gap;
+    };
+
+    const pageCount = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      if (max <= 1) return 1;
+      return Math.round(max / step()) + 1;
+    };
+
+    const currentPage = () => Math.round(track.scrollLeft / step());
+
+    let dots: HTMLButtonElement[] = [];
+
+    const paint = () => {
+      const page = currentPage();
+      dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === page)));
+    };
+
+    const goTo = (page: number) => {
+      const left = Math.min(page * step(), track.scrollWidth - track.clientWidth);
+      track.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+    };
+
+    const buildDots = () => {
+      const total = pageCount();
+      if (dots.length === total) return paint();
+      dotsBox.textContent = '';
+      dots = Array.from({ length: total }, (_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'works__dot';
+        dot.setAttribute('aria-label', `${i + 1}ページ目`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsBox.appendChild(dot);
+        return dot;
+      });
+      paint();
+    };
+
+    nextBtn?.addEventListener('click', () => {
+      goTo((currentPage() + 1) % pageCount());
+    });
+
+    track.addEventListener('scroll', paint, { passive: true });
+    new ResizeObserver(buildDots).observe(track);
+    buildDots();
+  }
+</script>

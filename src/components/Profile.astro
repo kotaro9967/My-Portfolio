@@ -1,0 +1,41 @@
+---
+import Section from './Section.astro';
+import { profile } from '../data/site';
+
+interface Props {
+  /** 詳細ページ自身で使うときは CTA を出さない */
+  showCta?: boolean;
+}
+
+const { showCta = true } = Astro.props;
+---
+
+<Section
+  id="profile"
+  number="01"
+  label="PROFILE"
+  title="Profile"
+  ctaLabel={showCta ? 'MORE ABOUT ME' : undefined}
+  ctaHref={showCta ? '/about' : undefined}
+>
+  <Fragment slot="intro">
+    <p class="profile__intro">{profile.intro}</p>
+    <p class="section__lead">{profile.body}</p>
+  </Fragment>
+
+  <div class="card profile__grid">
+    {
+      profile.items.map((item) => (
+        <div class="profile__item">
+          <img src={`/assets/${item.icon}`} alt="" width="26" height="26" loading="lazy" />
+          <div>
+            <div class="profile__label">{item.label}</div>
+            <div class="profile__value">
+              {item.value.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</Section>

@@ -1,0 +1,42 @@
+---
+import Section from './Section.astro';
+import { skills } from '../data/site';
+
+interface Props {
+  showCta?: boolean;
+}
+
+const { showCta = true } = Astro.props;
+---
+
+<Section
+  id="skills"
+  number="02"
+  label="SKILLS"
+  title="What I Do"
+  ctaLabel={showCta ? 'VIEW ALL SKILLS' : undefined}
+  ctaHref={showCta ? '/about#skills' : undefined}
+>
+  <p class="section__lead" slot="intro">{skills.lead}</p>
+
+  <div class="skills__grid">
+    {
+      skills.items.map((item) => (
+        <article class="card card--hover skill-card">
+          <div class="skill-card__head">
+            <img src={`/assets/${item.icon}`} alt="" width="28" height="28" loading="lazy" />
+            <h3 class="skill-card__title">
+              {item.title.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+            </h3>
+          </div>
+          <p class="skill-card__text">{item.text}</p>
+          <div class="chip-row">
+            {item.tags.map((tag) => (
+              <span class="chip">{tag}</span>
+            ))}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>

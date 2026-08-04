@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="page">
+    <div class="blueprint-grid" aria-hidden="true"></div>
+
+    <Header />
+
+    <main class="shell" id="top">
+      <slot />
+      <Footer />
+    </main>
+  </div>
+</BaseLayout>
+
+<script>
+  // スクロールに応じたセクションのフェードイン
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let pending = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+
+  if (reduced) {
+    pending.forEach((el) => el.classList.add('is-visible'));
+  } else {
+    let ticking = false;
+
+    // 画面下 12% にかかった要素を表示。一気にスクロールしても取りこぼさない
+    const sweep = () => {
+      ticking = false;
+      const limit = window.innerHeight * 0.88;
+      pending = pending.filter((el) => {
+        if (el.getBoundingClientRect().top > limit) return true;
+        el.classList.add('is-visible');
+        return false;
+      });
+      if (!pending.length) {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(sweep);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    sweep();
+
+    // 何らかの理由で発火しなかった場合の保険
+    window.addEventListener('load', () => setTimeout(sweep, 300));
+  }
+</script>
