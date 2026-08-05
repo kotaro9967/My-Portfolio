@@ -69,6 +69,10 @@ const items = (await getCollection('works', ({ data }) => !data.draft && data.fe
 
     const buildDots = () => {
       const total = pageCount();
+      // ページが1つしかない（＝作品が少なくスクロールの必要がない）ときはページ送りUIごと隠す
+      const needsPaging = total > 1;
+      dotsBox.style.display = needsPaging ? '' : 'none';
+      if (nextBtn) nextBtn.style.display = needsPaging ? '' : 'none';
       if (dots.length === total) return paint();
       dotsBox.textContent = '';
       dots = Array.from({ length: total }, (_, i) => {

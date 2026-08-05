@@ -15,7 +15,9 @@
       "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Image]::FromFile\\(\"public\\\\assets\\\\pen.png\"\\); \"$\\($img.Width\\) x $\\($img.Height\\), PixelFormat: $\\($img.PixelFormat\\)\"; $img.Dispose\\(\\))",
       "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Bitmap]::FromFile\\(\"public\\\\assets\\\\pen.png\"\\); $p1 = $img.GetPixel\\(5,5\\); $p2 = $img.GetPixel\\(150,900\\); \"$p1 | $p2\"; $img.Dispose\\(\\))",
       "PowerShell(Get-Command magick -ErrorAction SilentlyContinue)",
-      "PowerShell(Get-Command ffmpeg -ErrorAction SilentlyContinue)"
+      "PowerShell(Get-Command ffmpeg -ErrorAction SilentlyContinue)",
+      "Bash(netstat -ano)",
+      "Bash(powershell -Command \"Stop-Process -Id 24292 -Force\")"
     ]
   }
 }

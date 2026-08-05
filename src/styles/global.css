@@ -180,6 +180,7 @@ textarea::placeholder {
   gap: 10px;
   flex: none;
   white-space: nowrap;
+  height: var(--header-h);
 }
 .brand__name {
   font-family: var(--font-display);
@@ -206,6 +207,10 @@ textarea::placeholder {
   letter-spacing: 0.16em;
 }
 .nav__link {
+  display: flex;
+  align-items: center;
+  height: var(--header-h);
+  padding: 0 2px;
   color: var(--ink-mute);
 }
 .nav__link:hover {
@@ -734,8 +739,9 @@ textarea::placeholder {
   justify-content: center;
 }
 .work-card__thumb img {
-  width: 56%;
-  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .work-card__tag {
   position: absolute;
@@ -1354,8 +1360,9 @@ textarea::placeholder {
   margin-bottom: 52px;
 }
 .detail__hero img {
-  width: 34%;
-  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .detail__body {
