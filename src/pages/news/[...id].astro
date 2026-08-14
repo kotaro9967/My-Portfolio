@@ -23,7 +23,10 @@ const label = iso.replace(/-/g, '.');
       <time datetime={iso}>{label}</time>
       <span class={`news__cat news__cat--${category.toLowerCase()}`}>{category}</span>
     </p>
-    <h1 class="detail__title">{title}</h1>
+    <h1 class="detail__title text-reveal">
+      <span class="text-reveal__inner">{title}</span>
+      <span class="text-reveal__cover" aria-hidden="true"></span>
+    </h1>
 
     <div class="prose">
       <Content />

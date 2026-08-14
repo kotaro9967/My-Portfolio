@@ -22,7 +22,10 @@ const others = (await getCollection('works', ({ data, id }) => !data.draft && id
 <PageShell title={`${title} | ${site.name}`} description={summary}>
   <article class="detail">
     <p class="detail__eyebrow">WORKS / {category}</p>
-    <h1 class="detail__title">{title}</h1>
+    <h1 class="detail__title text-reveal">
+      <span class="text-reveal__inner">{title}</span>
+      <span class="text-reveal__cover" aria-hidden="true"></span>
+    </h1>
     <p class="detail__summary">{summary}</p>
 
     <div class="detail__hero card" style={`background:${gradient}`}>

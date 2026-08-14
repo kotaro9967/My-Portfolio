@@ -510,14 +510,13 @@ textarea::placeholder {
 
 .hero {
   position: relative;
-  margin-top: 26px;
-  padding-bottom: 40px;
+  height: 100%;
 }
 
 .hero__canvas {
   position: relative;
   width: 100%;
-  aspect-ratio: 1284 / 825;
+  height: 100%;
 }
 
 .hero__rule {
@@ -536,7 +535,7 @@ textarea::placeholder {
 
 .hero__measure {
   position: absolute;
-  right: -52px;
+  right: 20px;
   top: 6%;
   height: 76%;
   display: flex;
@@ -550,6 +549,39 @@ textarea::placeholder {
   pointer-events: none;
 }
 
+/* 手描き風バッジ（Fresh Ideas. / Student Perspective）
+   図面のスイープ・署名のアニメーションが落ち着いた頃に最後に text-reveal で現れる */
+.hero__badge.text-reveal {
+  /* .text-reveal 側の position:relative より詳細度を上げて確実に上書きする */
+  position: absolute;
+  height: auto;
+  z-index: 4;
+  filter: drop-shadow(2px 3px 6px rgba(63, 69, 100, 0.18));
+  pointer-events: none;
+  user-select: none;
+}
+.hero__badge .text-reveal__inner {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hero__badge--ideas {
+  left: 11.5%;
+  top: 8%;
+  width: 6.2%;
+}
+.hero__badge--student {
+  left: 4%;
+  top: 20.5%;
+  width: 6.2%;
+}
+@media (max-width: 1000px) {
+  /* モバイルは hero_mobile.png にレイアウトを最適化しておらず場所が無いため非表示 */
+  .hero__badge {
+    display: none;
+  }
+}
+
 .hero__blueprint,
 .hero__wordmark {
   position: absolute;
@@ -559,6 +591,14 @@ textarea::placeholder {
   pointer-events: none;
   user-select: none;
 }
+/* 背景画像は常に画面いっぱいに敷く。site.ts の left/top/width/height（旧アスペクト比
+   キャンバス用の割合指定）はここでは使わず、無視して全面表示する */
+.hero__blueprint {
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
 .hero__blueprint img,
 .hero__wordmark img {
   width: 100%;
@@ -567,7 +607,7 @@ textarea::placeholder {
   object-fit: cover;
 }
 .hero__blueprint img {
-  object-position: top center;
+  object-position: center 20%;
 }
 
 /* 図面が左上から描かれていく演出 */
@@ -597,7 +637,7 @@ textarea::placeholder {
   -webkit-mask-composite: source-in;
 }
 .hero__blueprint.is-drawing {
-  animation: heroSweep 3.4s cubic-bezier(0.45, 0, 0.25, 1) 0.15s backwards;
+  animation: heroSweep 1.4s cubic-bezier(0.45, 0, 0.25, 1) 0.1s backwards;
 }
 @keyframes heroSweep {
   from {
@@ -1060,6 +1100,46 @@ textarea::placeholder {
 }
 
 /* ============================================================
+   Text reveal（下からせり上がりつつ、カバーが通り抜けて見せる演出）
+   dxclub.net の「経営と、ITと、共創と」の表現を参考に実装
+   ============================================================ */
+.text-reveal {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+.text-reveal__inner {
+  display: block;
+}
+.js .text-reveal__inner {
+  transform: translateY(100%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.text-reveal__cover {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  pointer-events: none;
+  z-index: 2;
+}
+.js .text-reveal__cover {
+  transform: translateY(102%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js .text-reveal.is-visible .text-reveal__inner {
+  transform: translateY(0%);
+}
+.js .text-reveal.is-visible .text-reveal__cover {
+  transform: translateY(-105%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .text-reveal__inner,
+  .js .text-reveal__cover {
+    transition: none;
+  }
+}
+
+/* ============================================================
    Responsive
    元の body.zoom ハックを廃止し、ブレークポイントで組み直し
    ============================================================ */
@@ -1105,25 +1185,14 @@ textarea::placeholder {
     flex-direction: row;
     gap: 10px;
   }
-  /* 狭い画面では重ね合わせをやめ、モバイル専用の縦長イラスト（KOTARO OZAWA ロゴ込み）を1枚絵として見せる */
-  .hero {
-    margin-top: 16px;
-    padding-bottom: clamp(40px, 10vw, 64px);
-  }
-  .hero__canvas {
-    aspect-ratio: 941 / 1672;
-  }
+  /* 狭い画面では重ね合わせをやめ、モバイル専用の縦長イラスト（KOTARO OZAWA ロゴ込み）を
+     画面いっぱいに敷く（cover なので端は切れるが、隙間なく画面を覆う） */
   .hero__rule {
     display: none;
   }
-  .hero__blueprint {
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
   .hero__blueprint img {
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center 8%;
   }
   /* モバイル用イラストも左上から描かれるスイープ演出を効かせつつ、
      背景との境目（左右・上端）はフェードさせて馴染ませる。

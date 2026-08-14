@@ -24,8 +24,11 @@ const lines = Array.isArray(title) ? title : [title];
 
   <div class="section__body">
     <div class="section__intro">
-      <h2 class:list={['section__title', titleClass]}>
-        {lines.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+      <h2 class:list={['section__title', 'text-reveal', titleClass]}>
+        <span class="text-reveal__inner">
+          {lines.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+        </span>
+        <span class="text-reveal__cover" aria-hidden="true"></span>
       </h2>
       <slot name="intro" />
       {

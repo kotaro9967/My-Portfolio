@@ -6,7 +6,10 @@ import { site } from '../data/site';
 <PageShell title={`404 | ${site.name}`} description="お探しのページは見つかりませんでした。">
   <section class="notfound">
     <p class="notfound__code">404</p>
-    <h1 class="notfound__title">ページが見つかりません</h1>
+    <h1 class="notfound__title text-reveal">
+      <span class="text-reveal__inner">ページが見つかりません</span>
+      <span class="text-reveal__cover" aria-hidden="true"></span>
+    </h1>
     <p class="notfound__lead">
       URLが変更されたか、削除された可能性があります。トップページから探し直してください。
     </p>

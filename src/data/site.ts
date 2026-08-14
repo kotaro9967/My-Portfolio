@@ -126,7 +126,7 @@ export const news = {
 } as const;
 
 export const contact = {
-  lead: 'お仕事のご相談やご依頼など、お気軽にお問い合わせください。費用に関してはページ数や技術レベルにもよりますが、10万円～15万円ほどを想定しております。',
+  lead: 'お仕事のご相談やご依頼など、お気軽にお問い合わせください。費用に関してはページ数や技術レベルにもよりますが、10万円～15万円ほどを想定しております。今まで葛飾区の職員や企業の方々に大変お世話になっているので、現在は葛飾区中心で活動させていただいております',
   links: [
     { icon: 'icon_mail.png', label: site.emailLabel, href: `mailto:${site.email}` },
     { icon: 'icon_linkedin.png', label: 'Kotaro Ozawa', href: '#contact' },

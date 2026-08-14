@@ -1,9 +1,8 @@
 ---
 import { hero, site, profile } from '../data/site';
+import HeroSignature from './HeroSignature.astro';
 
-const { blueprint, wordmarks, wordmarkSrc, wordmarkAlt } = hero;
-const primary = wordmarks.find((w) => w.primary) ?? wordmarks[0];
-const rest = wordmarks.filter((w) => w !== primary);
+const { blueprint } = hero;
 
 const box = (w: { left: number; top: number; width_pct: number; height_pct: number }) =>
   `left:${w.left}%;top:${w.top}%;width:${w.width_pct}%;height:${w.height_pct}%`;
@@ -31,21 +30,21 @@ const box = (w: { left: number; top: number; width_pct: number; height_pct: numb
       />
     </picture>
 
-    <h1 class="hero__wordmark hero__wordmark--primary" style={box(primary)}>
-      <picture>
-        <source srcset={`/assets/${wordmarkSrc}.webp`} type="image/webp" />
-        <img src={`/assets/${wordmarkSrc}.png`} alt={wordmarkAlt} width="2508" height="627" />
-      </picture>
-    </h1>
+    <div class="hero__badge hero__badge--ideas text-reveal" data-hero-badge>
+      <img class="text-reveal__inner" src="/assets/fresh-ideas-badge.png" alt="Fresh Ideas." loading="lazy" />
+      <span class="text-reveal__cover" aria-hidden="true"></span>
+    </div>
+    <div class="hero__badge hero__badge--student text-reveal" data-hero-badge>
+      <img
+        class="text-reveal__inner"
+        src="/assets/student-perspective-badge.png"
+        alt="Student Perspective"
+        loading="lazy"
+      />
+      <span class="text-reveal__cover" aria-hidden="true"></span>
+    </div>
 
-    {
-      rest.map((mark) => (
-        <picture class="hero__wordmark" style={box(mark)} aria-hidden="true">
-          <source srcset={`/assets/${wordmarkSrc}.webp`} type="image/webp" />
-          <img src={`/assets/${wordmarkSrc}.png`} alt="" width="2508" height="627" loading="lazy" />
-        </picture>
-      ))
-    }
+    <HeroSignature />
   </div>
 
   <p class="visually-hidden">{site.nameJa}／{profile.items[1].value[0]}。{profile.intro}</p>
@@ -54,13 +53,21 @@ const box = (w: { left: number; top: number; width_pct: number; height_pct: numb
 <script>
   const blueprint = document.querySelector<HTMLElement>('[data-hero-blueprint]');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // --sweep をアニメーションさせるには @property 対応が必要。
+  // 非対応ブラウザでは最初から全体を表示したままにする。
+  const canAnimate = typeof CSS !== 'undefined' && 'registerProperty' in CSS;
+
+  // 図面のスイープが完了したら他コンポーネント（署名アニメーション）に知らせる
+  const notifySweepDone = () => window.dispatchEvent(new CustomEvent('hero:sweep-done'));
+
+  if (!blueprint || reduced || !canAnimate) {
+    notifySweepDone();
+  } else {
+    blueprint.classList.add('is-drawing');
+    blueprint.addEventListener('animationend', notifySweepDone, { once: true });
+  }
 
   if (blueprint && !reduced) {
-    // --sweep をアニメーションさせるには @property 対応が必要。
-    // 非対応ブラウザでは最初から全体を表示したままにする。
-    const canAnimate = typeof CSS !== 'undefined' && 'registerProperty' in CSS;
-    if (canAnimate) blueprint.classList.add('is-drawing');
-
     // スクロールに応じたパララックス（元デザインの GSAP 相当）
     let ticking = false;
     const update = () => {
@@ -77,4 +84,27 @@ const box = (w: { left: number; top: number; width_pct: number; height_pct: numb
     window.addEventListener('scroll', onScroll, { passive: true });
     update();
   }
+
+  // Fresh Ideas. / Student Perspective バッジは、署名アニメーション（KOTARO OZAWA）が
+  // 描き終わった直後に最後に自然に現れるようにする。
+  const badges = Array.from(document.querySelectorAll<HTMLElement>('[data-hero-badge]'));
+
+  if (badges.length) {
+    if (reduced) {
+      badges.forEach((el) => el.classList.add('is-visible'));
+    } else {
+      window.addEventListener(
+        'hero:signature-drawn',
+        () => {
+          badges.forEach((el, i) => {
+            window.setTimeout(() => el.classList.add('is-visible'), i * 180);
+          });
+        },
+        { once: true }
+      );
+    }
+  }
+
+  // ページめくりを閉じてヒーローに戻る際はめくり自体のアニメーションのみで、
+  // 図面・署名・バッジの再生は行わない（見た目はそのまま維持される）。
 </script>

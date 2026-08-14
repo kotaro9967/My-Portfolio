@@ -25,9 +25,9 @@ const { title, description } = Astro.props;
 </BaseLayout>
 
 <script>
-  // スクロールに応じたセクションのフェードイン
+  // スクロールに応じたセクションのフェードイン & 見出しのテキストリベール
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let pending = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+  let pending = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal], .text-reveal'));
 
   if (reduced) {
     pending.forEach((el) => el.classList.add('is-visible'));
