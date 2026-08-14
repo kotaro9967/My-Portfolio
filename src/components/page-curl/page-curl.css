@@ -20,6 +20,7 @@
   overflow: hidden;
   background: var(--pc-paper);
   filter: drop-shadow(3px 3px 16px rgba(var(--pc-ink), 0.16));
+  will-change: clip-path;
 }
 
 /* ヒーローは画面いっぱいに背景画像を敷きたいので、余白なしで .pc__sheet と同じ大きさにする */
@@ -35,6 +36,7 @@
   pointer-events: none;
   background: linear-gradient(315deg, #f3f4fb 0%, #fafaff 26%, #fff 62%, #f6f7fd 100%);
   filter: drop-shadow(6px 6px 20px rgba(var(--pc-ink), 0.22));
+  will-change: clip-path;
 }
 
 /* 折れ線に対する鏡像変換をかける入れ物 */
@@ -42,6 +44,7 @@
   position: absolute;
   inset: 0;
   transform-origin: 0 0;
+  will-change: transform;
 }
 
 /* 裏写り（表面の複製）。濃さは JS の showThrough が opacity を設定 */

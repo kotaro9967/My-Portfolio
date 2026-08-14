@@ -26,8 +26,8 @@ interface Props {
 }
 
 const {
-  scrollDistance = 3200,
-  flickThreshold = 150,
+  scrollDistance = 4200,
+  flickThreshold = 190,
   idleCorner = 46,
   showThrough = 0.14,
   allowReverse = true,
@@ -62,8 +62,8 @@ const {
     const header = d.headerSelector ? document.querySelector<HTMLElement>(d.headerSelector) : null;
 
     initPageCurl(root, {
-      scrollDistance: Number(d.scrollDistance ?? 3200),
-      flickThreshold: Number(d.flickThreshold ?? 150),
+      scrollDistance: Number(d.scrollDistance ?? 4200),
+      flickThreshold: Number(d.flickThreshold ?? 190),
       idleCorner: Number(d.idleCorner ?? 46),
       showThrough: Number(d.showThrough ?? 0.14),
       allowReverse: d.allowReverse !== 'false',

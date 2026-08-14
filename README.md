@@ -1,6 +1,6 @@
 # Kotaro Ozawa Portfolio (Astro)
 
-Claude Design から書き出した `Portfolio_HP_copy_dc.html` を Astro プロジェクトに変換したものです。
+小澤虎汰朗のポートフォリオサイトです
 
 ## セットアップ
 
